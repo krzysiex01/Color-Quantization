@@ -1,0 +1,76 @@
+﻿<Page
+    x:Class="Color_Quantization.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Color_Quantization"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+    Loaded="Page_Loaded" >
+    <Page.Resources>
+        <Style TargetType="Image">
+            <Setter Property="Margin" Value="5 5 5 10"></Setter>
+        </Style>
+        <Style TargetType="Slider">
+            <Setter Property="Margin" Value="5 5 5 10"></Setter>
+        </Style>
+        <Style TargetType="Button">
+            <Setter Property="Margin" Value="5 5 5 10"></Setter>
+        </Style>
+        <Style TargetType="TextBlock">
+            <Setter Property="FontSize" Value="20"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+        </Style>
+        <Style TargetType="ProgressBar">
+            <Setter Property="Margin" Value="0 5 0 10"></Setter>
+        </Style>
+    </Page.Resources>
+    <Grid AllowDrop="True" DragOver="OnFileDragOver" DragLeave="OnFileDragLeave" Drop="OnFileDrop">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <RelativePanel x:Name="AddFilePanel" Background="#44000000" Visibility="Collapsed" Grid.ColumnSpan="2">
+            <SymbolIcon x:Name="AddSymbol" Symbol="Add" RelativePanel.AlignVerticalCenterWithPanel="True" RelativePanel.AlignHorizontalCenterWithPanel="True" Foreground="White" RenderTransformOrigin="0.5,0.5">
+                <SymbolIcon.RenderTransform>
+                    <CompositeTransform ScaleX="1.5" ScaleY="1.5"/>
+                </SymbolIcon.RenderTransform>
+            </SymbolIcon>
+            <TextBlock RelativePanel.Below="AddSymbol" RelativePanel.AlignHorizontalCenterWithPanel="True" Margin="0,12,0,0" Text="Add file" Foreground="White" FontSize="24"></TextBlock>
+        </RelativePanel>
+        <Grid Grid.Column="0" BorderThickness="1" BorderBrush="Gray" CornerRadius="2" Name="InputColumn">
+            <StackPanel Orientation="Vertical" VerticalAlignment="Center">
+                <TextBlock Text="Orginal image"/>
+                <Image Source="{Binding OrginalImageSource}"/>
+                <TextBlock Text="Number of colors (K^3)"></TextBlock>
+                <Slider Name="NumberOfColorsSlider" Value="2" Minimum="1" Maximum="15" TickPlacement="BottomRight"/>
+                <Button Click="ReduceColors" HorizontalAlignment="Center">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="Reduce to" Margin="0 0 3 0"></TextBlock>
+                        <TextBlock Text="{Binding ElementName=NumberOfColorsSlider, Path=Value}"></TextBlock>
+                        <TextBlock FontSize="12">3</TextBlock>
+                        <TextBlock Text=" colors"></TextBlock>
+                    </StackPanel>
+                </Button>
+            </StackPanel>
+        </Grid>
+        <Grid Grid.Column="1" BorderThickness="1" BorderBrush="Gray" CornerRadius="2" Name="OutputColumn">
+            <ScrollViewer>
+                <StackPanel Orientation="Vertical">
+                    <TextBlock Text="Error Diffusion Dithering Method"></TextBlock>
+                    <Image Source="{Binding TransformedImageSource1}"></Image>
+                    <ProgressBar IsIndeterminate="True" Visibility="{Binding Image1IsProcessing}" MinHeight="20"></ProgressBar>
+
+                    <TextBlock Text="Popularity Algorithm"></TextBlock>
+                    <Image Source="{Binding TransformedImageSource2}"></Image>
+                    <ProgressBar IsIndeterminate="True" Visibility="{Binding Image2IsProcessing}"></ProgressBar>
+
+                    <TextBlock Text="K-Means Algorithm"></TextBlock>
+                    <Image Source="{Binding TransformedImageSource3}"></Image>
+                    <ProgressBar IsIndeterminate="True" Visibility="{Binding Image3IsProcessing}"></ProgressBar>
+                </StackPanel>
+            </ScrollViewer>
+        </Grid>
+    </Grid>
+</Page>
